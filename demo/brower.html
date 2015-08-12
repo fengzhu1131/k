@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="description" content="">
+		<meta http-equiv="x-dns-prefetch-control" content="on">
+		<title>浏览器测试</title>
+	</head>
+
+	<body>
+		<textarea rows="15" cols="100" id="txtBrower">
+		</textarea>
+	</body>
+	<script src="../lib/jquery-1.11.2.min.js"></script>
+	<script src="../lib/json3.min.js"></script>
+	<script src="../lib/k-utils-ex.js"></script>
+	<script src="../lib/k-utils-fn.js"></script>
+	<script src="../lib/detect.js"></script>
+	<script>
+		$(function() {
+			var strHTML = '设备：{0}\r\r系统：{1}\r\r系统版本：{2}\r\r浏览器：{3}\r\r浏览器内核：{4}\r\r浏览器版本：{5}',
+				is = [],
+				d = $.__detect;
+			is[0] = d.pc ? 'pc' : d.phone ? 'phone' : 'tablet';
+			is[1] = d.system;
+			is[2] = d.version || '';
+			is[3] = getBrower(d.browser); // JSON.stringify(d);
+			is[4] = d.browser.webkit ? 'webkit' : '';
+			is[5] = d.browser.version || '';
+			//strHTML=strHTML.replace('{0}',is[0]).replace('{1}',is[1]).replace('{2}',is[2]).replace('{3}',is[3]).replace('{4}',is[4]).replace('{5}',is[5]);
+			strHTML = strHTML.format(is);
+			console.log(d);
+			$('#txtBrower').val(strHTML);
+			console.log(K.encrypt.utf8_decode('网络'));
+		});
+
+		function getBrower(d) {
+			var b = ['silk', 'chrome', 'weixin', 'firefox', 'ie', 'safari', 'webview'];
+			for (var i = 0, l = b.length; i < l; i++) {
+				if (d.hasOwnProperty(b[i])) {
+					return b[i];
+				}
+			}
+			return '';
+		}
+	</script>
+
+</html>
